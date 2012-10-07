@@ -25,10 +25,37 @@
     <Content Include="app.js">
       <DependentUpon>app.ts</DependentUpon>
     </Content>
+    <Content Include="lib\jasmine-html.js" />
+    <Content Include="lib\jasmine.css" />
+    <Content Include="lib\jasmine.d.ts" />
+    <Content Include="lib\jasmine.js" />
+    <Content Include="SpecRunner.html" />
+    <TypeScriptCompile Include="spec\PlayerSpec.ts" />
+    <Content Include="spec\PlayerSpec.js">
+      <DependentUpon>PlayerSpec.ts</DependentUpon>
+    </Content>
+    <Content Include="spec\samples\PlayerSpec.js" />
+    <Content Include="spec\samples\SpecHelper.js" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="app.ts" />
   </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="src\Player.ts" />
+    <TypeScriptCompile Include="src\Luck.ts" />
+    <Content Include="src\Luck.js">
+      <DependentUpon>Luck.ts</DependentUpon>
+    </Content>
+    <Content Include="src\Player.js">
+      <DependentUpon>Player.ts</DependentUpon>
+    </Content>
+    <Content Include="web.config" />
+    <Content Include="lib\MIT.LICENSE" />
+    <None Include="web.Release.config">
+      <DependentUpon>web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

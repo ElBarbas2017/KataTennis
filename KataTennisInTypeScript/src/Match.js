@@ -3,11 +3,6 @@ var Match = (function () {
         this.player1 = player1;
         this.player2 = player2;
         this.scoreboard = scoreboard;
-        this.scoreSequence = [
-            15, 
-            30, 
-            40
-        ];
         if(!player1) {
             throw "Player1 Is Required";
         }
@@ -26,6 +21,12 @@ var Match = (function () {
             } else {
                 this.scoreboard.Player2Scores();
             }
+        }
+        if(this.scoreboard.player1Score = -1) {
+            this.onWin(this.player1);
+        }
+        if(this.scoreboard.player2Score = -1) {
+            this.onWin(this.player2);
         }
     };
     return Match;

@@ -82,6 +82,18 @@ describe("Match", () => {
         expect(match.scoreboard.player1Score).toBe(40);
     });
 
+    it("should be winned by first player scoring after reaching 40", () => {
+        spyOn(playerOneLuck, "Do").andReturn(25);
+        spyOn(playerTwoLuck, "Do").andReturn(10);
+        spyOn(match, "onWin");
+
+        match.scoreboard.player1Score = 40;
+        match.onWin = (p) => { };
+        match.PlayRound();
+
+        expect(match.onWin).toHaveBeenCalledWith([player1]);
+    });
+
     xit("should gave a player advantage if both players score is 40", () => {
 
         spyOn(playerOneLuck, "Do").andReturn(10);

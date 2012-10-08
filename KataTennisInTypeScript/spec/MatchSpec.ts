@@ -4,6 +4,19 @@
 /// <reference path="../src/Luck.ts" />
 
 describe("Match", () => {
+    var playerOneLuck : Luck;
+    var playerTwoLuck : Luck;
+    var player1 : Player;
+    var player2 : Player;
+
+    beforeEach(() => {
+        playerOneLuck = new Luck();
+        playerTwoLuck = new Luck();
+
+        player1 = new Player(playerOneLuck);
+        player2 = new Player(playerTwoLuck);
+    });
+
     it("should need two Players to create a match", () => {
         var player = new Player(null);
         
@@ -23,15 +36,9 @@ describe("Match", () => {
     });
     
     it("should give 15 poins on First move only to the player with greater luck", () => {
-        
-        var playerOneLuck = new Luck();
-        var playerTwoLuck = new Luck();
 
         spyOn(playerOneLuck, "Do").andReturn(10);
         spyOn(playerTwoLuck, "Do").andReturn(25);
-
-        var player1 = new Player(playerOneLuck);
-        var player2 = new Player(playerTwoLuck);
 
         var match = new Match(player1, player2);
 
@@ -45,45 +52,35 @@ describe("Match", () => {
     });
 
     it("should replay until some players gets greater luck", () => {
-        var playerOneLuck = new Luck();
-        var playerTwoLuck = new Luck();
-        var countPlayer1 = 0;
-        var countPlayer2 = 0;
 
-        spyOn(playerOneLuck, "Do").andCallFake(() => {
-            if (countPlayer1 < 10) {
-                countPlayer1++;
-                return 15;
-            }
-            else
-                return 10;
-        });
-
-        spyOn(playerTwoLuck, "Do").andCallFake(() => {
-            if (countPlayer2 < 10) {
-                countPlayer2++;
-                return 15;
-            }
-            else
-                return 25;
-        });
-
-        var player1 = new Player(playerOneLuck);
-        var player2 = new Player(playerTwoLuck);
+        SetupFakeLuckDoCall(playerOneLuck, 10, 15, 10);
+        SetupFakeLuckDoCall(playerTwoLuck, 10, 15, 25);
 
         var match = new Match(player1, player2);
 
         match.PlayRound();
 
-        var doCallEvaluation : any = playerOneLuck.Do;
-        
-        expect(doCallEvaluation.calls.length).toEqual(11);
-
-        doCallEvaluation = playerTwoLuck.Do;
-
-        expect(doCallEvaluation.calls.length).toEqual(11);
+        expect(GetNumberOfCalls(playerOneLuck.Do)).toEqual(11);
+        expect(GetNumberOfCalls(playerTwoLuck.Do)).toEqual(11);
 
         expect(match.player2Score).toBe(15);
         expect(match.player1Score).toBe(0);
     });
+
+    function SetupFakeLuckDoCall(luck: Luck, maxCalls: number, resultInRange: number, resultOutOfRange: number) {
+        var callCount = 0;
+
+        spyOn(luck, "Do").andCallFake(() => {
+            if (callCount < maxCalls) {
+                callCount++;
+                return resultInRange;
+            }
+            else
+                return resultOutOfRange;
+        });
+    }
+
+    function GetNumberOfCalls(method: any) : number {
+        return method.calls.length;
+    }
 });

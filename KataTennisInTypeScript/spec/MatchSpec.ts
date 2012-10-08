@@ -8,6 +8,8 @@ describe("Match", () => {
     var playerTwoLuck : Luck;
     var player1 : Player;
     var player2 : Player;
+    var scoreBoard : Scoreboard;
+    var match: Match;
 
     beforeEach(() => {
         playerOneLuck = new Luck();
@@ -15,21 +17,23 @@ describe("Match", () => {
 
         player1 = new Player(playerOneLuck);
         player2 = new Player(playerTwoLuck);
+        scoreBoard = new Scoreboard();
+        match = new Match(player1, player2, scoreBoard);
     });
 
     it("should need two Players to create a match", () => {
         var player = new Player(null);
         
-        var match = new Match(player, player);
+        var twoPlayerMatch = new Match(player, player, scoreBoard);
 
-        expect(match.player1).toBe(player);
-        expect(match.player2).toBe(player);
+        expect(twoPlayerMatch.player1).toBe(player);
+        expect(twoPlayerMatch.player2).toBe(player);
     });
 
     it("should need throw if one of two players are null", () => {
         
-        var firstParameterIsNull = () => new Match(null, new Player(null));
-        var secondParameterIsNull = () => new Match(new Player(null), null);
+        var firstParameterIsNull = () => new Match(null, new Player(null), null);
+        var secondParameterIsNull = () => new Match(new Player(null), null, null);
 
         expect(firstParameterIsNull).toThrow("Player1 Is Required");
         expect(secondParameterIsNull).toThrow("Player2 Is Required");
@@ -40,15 +44,13 @@ describe("Match", () => {
         spyOn(playerOneLuck, "Do").andReturn(10);
         spyOn(playerTwoLuck, "Do").andReturn(25);
 
-        var match = new Match(player1, player2);
-
         match.PlayRound();
 
         expect(playerOneLuck.Do).toHaveBeenCalled();
         expect(playerTwoLuck.Do).toHaveBeenCalled();
 
-        expect(match.player2Score).toBe(15);
-        expect(match.player1Score).toBe(0);
+        expect(match.scoreboard.player2Score).toBe(15);
+        expect(match.scoreboard.player1Score).toBe(0);
     });
 
     it("should replay until some players gets greater luck", () => {
@@ -56,15 +58,13 @@ describe("Match", () => {
         SetupFakeLuckDoCall(playerOneLuck, 10, 15, 10);
         SetupFakeLuckDoCall(playerTwoLuck, 10, 15, 25);
 
-        var match = new Match(player1, player2);
-
         match.PlayRound();
 
         expect(GetNumberOfCalls(playerOneLuck.Do)).toEqual(11);
         expect(GetNumberOfCalls(playerTwoLuck.Do)).toEqual(11);
 
-        expect(match.player2Score).toBe(15);
-        expect(match.player1Score).toBe(0);
+        expect(match.scoreboard.player2Score).toBe(15);
+        expect(match.scoreboard.player1Score).toBe(0);
     });
 
     it("should gave players score in order 15 - 30 - 40", () => {
@@ -72,16 +72,24 @@ describe("Match", () => {
         spyOn(playerOneLuck, "Do").andReturn(25);
         spyOn(playerTwoLuck, "Do").andReturn(10);
 
-        var match = new Match(player1, player2);
+        match.PlayRound();
+        expect(match.scoreboard.player1Score).toBe(15);
         
         match.PlayRound();
-        expect(match.player1Score).toBe(15);
-        
-        match.PlayRound();
-        expect(match.player1Score).toBe(30);
+        expect(match.scoreboard.player1Score).toBe(30);
 
         match.PlayRound();
-        expect(match.player1Score).toBe(40);
+        expect(match.scoreboard.player1Score).toBe(40);
+    });
+
+    xit("should gave a player advantage if both players score is 40", () => {
+
+        spyOn(playerOneLuck, "Do").andReturn(10);
+        spyOn(playerTwoLuck, "Do").andReturn(15);
+
+        match.PlayRound();
+
+        
     });
 
     function SetupFakeLuckDoCall(luck: Luck, maxCalls: number, resultInRange: number, resultOutOfRange: number) {

@@ -57,6 +57,10 @@
     <Content Include="src\Player.js">
       <DependentUpon>Player.ts</DependentUpon>
     </Content>
+    <Content Include="src\ScoreBoard.js">
+      <DependentUpon>Scoreboard.ts</DependentUpon>
+    </Content>
+    <Content Include="src\Scoreboard.ts" />
     <Content Include="web.config" />
     <Content Include="lib\MIT.LICENSE" />
     <None Include="web.Release.config">

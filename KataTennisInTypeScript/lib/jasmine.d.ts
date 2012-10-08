@@ -47,7 +47,7 @@ interface JasmineSpy {
 
 declare function spyOn(object: any, method: string) : JasmineSpyOn;
 
-declare function expect(spy: () => any): JasmineSpyMatchers;
+declare function expect(spy: (any) => any): JasmineSpyMatchers;
 
 declare function expect(spy: JasmineSpy): JasmineSpyMatchers;
 

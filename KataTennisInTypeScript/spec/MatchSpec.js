@@ -45,6 +45,17 @@ describe("Match", function () {
         expect(match.player2Score).toBe(15);
         expect(match.player1Score).toBe(0);
     });
+    it("should gave players score in order 15 - 30 - 40", function () {
+        spyOn(playerOneLuck, "Do").andReturn(25);
+        spyOn(playerTwoLuck, "Do").andReturn(10);
+        var match = new Match(player1, player2);
+        match.PlayRound();
+        expect(match.player1Score).toBe(15);
+        match.PlayRound();
+        expect(match.player1Score).toBe(30);
+        match.PlayRound();
+        expect(match.player1Score).toBe(40);
+    });
     function SetupFakeLuckDoCall(luck, maxCalls, resultInRange, resultOutOfRange) {
         var callCount = 0;
         spyOn(luck, "Do").andCallFake(function () {

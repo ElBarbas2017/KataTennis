@@ -21,7 +21,6 @@ interface JasmineMatchers {
     toBeLessThan(match: number);
     toBeGreaterThan(match: number);
     toBeCloseTo(expected: number, tolerance: number);
-    toThrow();
 }
 
 declare function expect(actual: any): JasmineMatchers;
@@ -32,6 +31,8 @@ interface JasmineSpyMatchers {
     toBeUndefined();
     toHaveBeenCalled();
     toHaveBeenCalledWith(arguments : any[]);
+    toThrow();
+    toThrow(e: any);
 }
 
 interface JasmineSpyOn {

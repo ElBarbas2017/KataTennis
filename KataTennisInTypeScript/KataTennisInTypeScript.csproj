@@ -31,6 +31,10 @@
     <Content Include="lib\jasmine.js" />
     <Content Include="SpecRunner.html" />
     <TypeScriptCompile Include="spec\PlayerSpec.ts" />
+    <Content Include="spec\MatchSpec.js">
+      <DependentUpon>MatchSpec.ts</DependentUpon>
+    </Content>
+    <Content Include="spec\MatchSpec.ts" />
     <Content Include="spec\PlayerSpec.js">
       <DependentUpon>PlayerSpec.ts</DependentUpon>
     </Content>
@@ -46,6 +50,10 @@
     <Content Include="src\Luck.js">
       <DependentUpon>Luck.ts</DependentUpon>
     </Content>
+    <Content Include="src\Match.js">
+      <DependentUpon>Match.ts</DependentUpon>
+    </Content>
+    <Content Include="src\Match.ts" />
     <Content Include="src\Player.js">
       <DependentUpon>Player.ts</DependentUpon>
     </Content>

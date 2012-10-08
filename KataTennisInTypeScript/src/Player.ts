@@ -1,3 +1,5 @@
+/// <reference path="../src/Luck.ts" />
+
 class Player {
 
     constructor (private luck: Luck) { }

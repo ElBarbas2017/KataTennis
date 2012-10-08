@@ -14,10 +14,14 @@
     private NextScore(currentScore: number) : number {
         var index = this.scoreSequence.indexOf(currentScore);
 
-        if (index < 0) 
+        if (index < 0)
             return this.scoreSequence[0];
-        else
-            return this.scoreSequence[index + 1];
+        else {
+            if ((this.scoreSequence.length - 1) = index + 1) 
+                return -1
+            else
+                return this.scoreSequence[index + 1];
+        }
     }
 
 }

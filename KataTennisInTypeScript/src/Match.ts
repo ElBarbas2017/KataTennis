@@ -1,6 +1,7 @@
 ﻿/// <reference path="../src/Player.ts" />
-
 class Match {
+    scoreSequence : number[] = [15, 30, 40];
+
     constructor (public player1: Player, public player2: Player) 
     {
         if (!player1) throw "Player1 Is Required";
@@ -17,9 +18,18 @@ class Match {
         if (player1Chance == player2Chance)
             this.PlayRound();
         else if (player1Chance > player2Chance)
-            this.player1Score = 15;
+            this.player1Score = this.NextScore(this.player1Score);
         else
-            this.player2Score = 15;
+            this.player2Score = this.NextScore(this.player2Score);
+    }
+
+    private NextScore(currentScore: number) : number {
+        var index = this.scoreSequence.indexOf(currentScore);
+
+        if (index < 0) 
+            return this.scoreSequence[0];
+        else
+            return this.scoreSequence[index + 1];
     }
 
     public player1Score: number;

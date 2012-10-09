@@ -1,5 +1,6 @@
 var Player = (function () {
-    function Player(luck) {
+    function Player(name, luck) {
+        this.name = name;
         this.luck = luck;
     }
     Player.prototype.Play = function () {
@@ -8,3 +9,4 @@ var Player = (function () {
     return Player;
 })();
 ; ;
+//@ sourceMappingURL=Player.js.map

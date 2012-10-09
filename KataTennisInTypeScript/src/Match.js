@@ -3,6 +3,7 @@ var Match = (function () {
         this.player1 = player1;
         this.player2 = player2;
         this.scoreboard = scoreboard;
+        this.alreadyWinner = false;
         this.onWin = function (p) {
         };
         if(!player1) {
@@ -13,6 +14,9 @@ var Match = (function () {
         }
     }
     Match.prototype.PlayRound = function () {
+        if(this.alreadyWinner) {
+            throw "There is already a winner";
+        }
         var player1Chance = this.player1.Play();
         var player2Chance = this.player2.Play();
         if(player1Chance == player2Chance) {
@@ -25,11 +29,15 @@ var Match = (function () {
             }
         }
         if(this.scoreboard.player1Score == -1) {
-            this.onWin(this.player1);
+            this.raiseOnWin(this.player1);
         }
         if(this.scoreboard.player2Score == -1) {
-            this.onWin(this.player2);
+            this.raiseOnWin(this.player2);
         }
+    };
+    Match.prototype.raiseOnWin = function (winner) {
+        this.alreadyWinner = true;
+        this.onWin(winner);
     };
     return Match;
 })();

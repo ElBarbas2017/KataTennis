@@ -100,6 +100,18 @@ describe("Match", function () {
         expect(match.onWin).toHaveBeenCalled();
         expect(winnerPlayer).toBe(player1);
     });
+    it("should throw if there is a winner", function () {
+        match.scoreboard.player1Score = Scoreboard.advantage;
+        match.scoreboard.player2Score = 40;
+        match.PlayRound();
+        var exception;
+        try  {
+            match.PlayRound();
+        } catch (e) {
+            exception = e;
+        }
+        expect(exception).toBe("There is already a winner");
+    });
     function SetupFakeLuckDoCall(luck, maxCalls, resultInRange, resultOutOfRange) {
         var callCount = 0;
         spyOn(luck, "Do").andCallFake(function () {

@@ -17,6 +17,7 @@ describe("Match", () => {
 
         player1 = new Player("Player1", playerOneLuck);
         player2 = new Player("Player2", playerTwoLuck);
+        
         scoreBoard = new Scoreboard();
         match = new Match(player1, player2, scoreBoard);
     });
@@ -142,6 +143,23 @@ describe("Match", () => {
         expect(winnerPlayer).toBe(player1);
     });
 
+    it("should throw if there is a winner", () => {
+        match.scoreboard.player1Score = Scoreboard.advantage;
+        match.scoreboard.player2Score = 40;
+
+        match.PlayRound();
+
+        var exception;
+
+        try {
+            match.PlayRound();
+        } catch (e) {
+            exception = e;
+        }
+          
+       expect(exception).toBe("There is already a winner");
+    });
+
     function SetupFakeLuckDoCall(luck: Luck, maxCalls: number, resultInRange: number, resultOutOfRange: number) {
         var callCount = 0;
 
@@ -155,7 +173,7 @@ describe("Match", () => {
         });
     }
 
-    function GetNumberOfCalls(method: any): number {
+    function GetNumberOfCalls(method): number {
         return method.calls.length;
     }
 });

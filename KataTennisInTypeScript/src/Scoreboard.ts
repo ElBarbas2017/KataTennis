@@ -42,7 +42,7 @@ class Scoreboard {
         var scoringResult: ScoringRuleResult = { currentScore: currentScore, otherPlayerScore: otherPlayerScore, satisfied: false }
 
         for (var i = 0; i < this.scoringRules.length; i++) {
-            scoringResult = this.scoringRules[0](currentScore, otherPlayerScore);
+            scoringResult = this.scoringRules[i](currentScore, otherPlayerScore);
 
             if (scoringResult.satisfied)
                 break;

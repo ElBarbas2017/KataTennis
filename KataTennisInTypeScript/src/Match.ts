@@ -29,6 +29,4 @@ class Match {
 
     }
 
-    public player1Score: number;
-    public player2Score: number;
 }

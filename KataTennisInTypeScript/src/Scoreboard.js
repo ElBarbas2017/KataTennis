@@ -1,3 +1,4 @@
+; ;
 var Scoreboard = (function () {
     function Scoreboard() {
         this.scoreSequence = [
@@ -7,40 +8,92 @@ var Scoreboard = (function () {
         ];
         this.player1Score = 0;
         this.player2Score = 0;
+        this.scoringRules = [
+            this.ScoringOnAdvantageWins, 
+            this.ScoringLastPointWins, 
+            this.ScoringOnOtherPlayersAdvantageBreaksIt, 
+            this.ScoringOnTieAt40GivesPlayerAdvantage
+        ];
     }
     Scoreboard.advantage = 41;
     Scoreboard.win = -1;
     Scoreboard.prototype.Player1Scores = function () {
-        if(this.player2Score == Scoreboard.advantage) {
-            this.player2Score = 40;
-        } else {
-            this.player1Score = this.NextScore(this.player1Score);
-        }
+        var scoringResult = this.DoScoring(this.player1Score, this.player2Score);
+        this.player1Score = scoringResult.currentScore;
+        this.player2Score = scoringResult.otherPlayerScore;
     };
     Scoreboard.prototype.Player2Scores = function () {
-        if(this.player1Score == Scoreboard.advantage) {
-            this.player1Score = 40;
-        } else {
-            this.player2Score = this.NextScore(this.player2Score);
+        var scoringResult = this.DoScoring(this.player2Score, this.player1Score);
+        this.player2Score = scoringResult.currentScore;
+        this.player1Score = scoringResult.otherPlayerScore;
+    };
+    Scoreboard.prototype.DoScoring = function (currentScore, otherPlayerScore) {
+        var scoringResult = {
+            currentScore: currentScore,
+            otherPlayerScore: otherPlayerScore,
+            satisfied: false
+        };
+        for(var i = 0; i < this.scoringRules.length; i++) {
+            scoringResult = this.scoringRules[0](currentScore, otherPlayerScore);
+            if(scoringResult.satisfied) {
+                break;
+            }
         }
+        if(!scoringResult.satisfied) {
+            scoringResult.currentScore = this.NextScore(currentScore);
+        }
+        return scoringResult;
+    };
+    Scoreboard.prototype.ScoringOnAdvantageWins = function (currentScore, otherPlayerScore) {
+        var result = false;
+        if(result = (currentScore == Scoreboard.advantage)) {
+            currentScore = Scoreboard.win;
+        }
+        return {
+            currentScore: currentScore,
+            otherPlayerScore: otherPlayerScore,
+            satisfied: result
+        };
+    };
+    Scoreboard.prototype.ScoringLastPointWins = function (currentScore, otherPlayerScore) {
+        var result = false;
+        if(result = (currentScore == 40 && otherPlayerScore < 40)) {
+            currentScore = Scoreboard.win;
+        }
+        return {
+            currentScore: currentScore,
+            otherPlayerScore: otherPlayerScore,
+            satisfied: result
+        };
+    };
+    Scoreboard.prototype.ScoringOnOtherPlayersAdvantageBreaksIt = function (currentScore, otherPlayerScore) {
+        var result = false;
+        if(result = (otherPlayerScore == Scoreboard.advantage)) {
+            otherPlayerScore = 40;
+        }
+        return {
+            currentScore: currentScore,
+            otherPlayerScore: otherPlayerScore,
+            satisfied: result
+        };
+    };
+    Scoreboard.prototype.ScoringOnTieAt40GivesPlayerAdvantage = function (currentScore, otherPlayerScore) {
+        var result = false;
+        if(result = (currentScore == 40 && otherPlayerScore == 40)) {
+            currentScore = Scoreboard.advantage;
+        }
+        return {
+            currentScore: currentScore,
+            otherPlayerScore: otherPlayerScore,
+            satisfied: result
+        };
     };
     Scoreboard.prototype.NextScore = function (currentScore) {
-        if(currentScore == Scoreboard.advantage) {
-            return Scoreboard.win;
-        }
         var index = this.scoreSequence.indexOf(currentScore);
         if(index < 0) {
             return this.scoreSequence[0];
         } else {
-            if((this.scoreSequence.length) == index + 1) {
-                if(this.player2Score == this.scoreSequence[2] && this.player1Score == this.scoreSequence[2]) {
-                    return Scoreboard.advantage;
-                } else {
-                    return Scoreboard.win;
-                }
-            } else {
-                return this.scoreSequence[index + 1];
-            }
+            return this.scoreSequence[index + 1];
         }
     };
     return Scoreboard;

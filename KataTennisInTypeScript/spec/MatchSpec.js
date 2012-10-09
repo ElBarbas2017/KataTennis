@@ -8,23 +8,23 @@ describe("Match", function () {
     beforeEach(function () {
         playerOneLuck = new Luck();
         playerTwoLuck = new Luck();
-        player1 = new Player(playerOneLuck);
-        player2 = new Player(playerTwoLuck);
+        player1 = new Player("Player1", playerOneLuck);
+        player2 = new Player("Player2", playerTwoLuck);
         scoreBoard = new Scoreboard();
         match = new Match(player1, player2, scoreBoard);
     });
     it("should need two Players to create a match", function () {
-        var player = new Player(null);
+        var player = new Player("null", null);
         var twoPlayerMatch = new Match(player, player, scoreBoard);
         expect(twoPlayerMatch.player1).toBe(player);
         expect(twoPlayerMatch.player2).toBe(player);
     });
     it("should need throw if one of two players are null", function () {
         var firstParameterIsNull = function () {
-            return new Match(null, new Player(null), null);
+            return new Match(null, new Player("Player2", null), null);
         };
         var secondParameterIsNull = function () {
-            return new Match(new Player(null), null, null);
+            return new Match(new Player("Player1", null), null, null);
         };
         expect(firstParameterIsNull).toThrow("Player1 Is Required");
         expect(secondParameterIsNull).toThrow("Player2 Is Required");
@@ -60,14 +60,14 @@ describe("Match", function () {
     it("should be winned by first player scoring after reaching 40", function () {
         spyOn(playerOneLuck, "Do").andReturn(25);
         spyOn(playerTwoLuck, "Do").andReturn(10);
-        spyOn(match, "onWin");
+        var winnerPlayer;
+        spyOn(match, "onWin").andCallFake(function (p) {
+            winnerPlayer = p;
+        });
         match.scoreboard.player1Score = 40;
-        match.onWin = function (p) {
-        };
         match.PlayRound();
-        expect(match.onWin).toHaveBeenCalledWith([
-            player1
-        ]);
+        expect(match.onWin).toHaveBeenCalled();
+        expect(winnerPlayer).toBe(player1);
     });
     xit("should gave a player advantage if both players score is 40", function () {
         spyOn(playerOneLuck, "Do").andReturn(10);
@@ -89,3 +89,4 @@ describe("Match", function () {
         return method.calls.length;
     }
 });
+//@ sourceMappingURL=MatchSpec.js.map

@@ -7,8 +7,8 @@ class Match {
         if (!player2) throw "Player2 Is Required";
     }
 
-    onWin: (p: Player) => void;
-
+    onWin = (p : Player) => {};
+   
     PlayRound(): void {
         var player1Chance = this.player1.Play();
         var player2Chance = this.player2.Play();
@@ -21,10 +21,10 @@ class Match {
             this.scoreboard.Player2Scores();
 
 
-        if (this.scoreboard.player1Score = -1)
+        if (this.scoreboard.player1Score == -1)
             this.onWin(this.player1);
 
-        if (this.scoreboard.player2Score = -1)
+        if (this.scoreboard.player2Score == -1)
             this.onWin(this.player2);
 
     }

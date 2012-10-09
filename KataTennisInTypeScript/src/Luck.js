@@ -5,3 +5,4 @@ var Luck = (function () {
     };
     return Luck;
 })();
+//@ sourceMappingURL=Luck.js.map

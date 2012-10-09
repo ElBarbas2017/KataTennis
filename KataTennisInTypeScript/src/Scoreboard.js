@@ -19,7 +19,7 @@ var Scoreboard = (function () {
         if(index < 0) {
             return this.scoreSequence[0];
         } else {
-            if((this.scoreSequence.length - 1) = index + 1) {
+            if((this.scoreSequence.length) == index + 1) {
                 return -1;
             } else {
                 return this.scoreSequence[index + 1];
@@ -28,3 +28,4 @@ var Scoreboard = (function () {
     };
     return Scoreboard;
 })();
+//@ sourceMappingURL=Scoreboard.js.map

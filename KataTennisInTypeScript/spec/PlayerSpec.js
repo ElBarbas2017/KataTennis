@@ -1,6 +1,6 @@
 describe("Player", function () {
     var luck = new Luck();
-    var player = new Player(luck);
+    var player = new Player("Player1", luck);
     it("should call luck when playing", function () {
         spyOn(luck, "Do").andCallThrough();
         var result = player.Play();
@@ -12,3 +12,4 @@ describe("Player", function () {
         expect(result).toBeGreaterThan(0);
     });
 });
+//@ sourceMappingURL=PlayerSpec.js.map

@@ -38,7 +38,7 @@ interface JasmineSpyMatchers {
 interface JasmineSpyOn {
     andCallThrough();
     andReturn(returnValue: any);
-    andCallFake(fakeMethod: () => any );
+    andCallFake(fakeMethod: (any) => any );
 }
 
 interface JasmineSpy {

@@ -2,9 +2,10 @@
 
 class Player {
 
-    constructor (private luck: Luck) { }
+    constructor (public name : string, private luck: Luck) { }
 
     Play(): number {
         return this.luck.Do();
     }
+
 };

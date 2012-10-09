@@ -4,7 +4,7 @@
 describe("Player", () => {
 
     var luck = new Luck();
-    var player = new Player(luck);
+    var player = new Player("Player1", luck);
 
     it("should call luck when playing", () => {
         spyOn(luck, "Do").andCallThrough();

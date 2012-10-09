@@ -25,6 +25,9 @@ var Scoreboard = (function () {
         }
     };
     Scoreboard.prototype.NextScore = function (currentScore) {
+        if(currentScore == Scoreboard.advantage) {
+            return Scoreboard.win;
+        }
         var index = this.scoreSequence.indexOf(currentScore);
         if(index < 0) {
             return this.scoreSequence[0];

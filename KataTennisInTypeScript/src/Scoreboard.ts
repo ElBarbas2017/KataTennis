@@ -20,6 +20,9 @@
     }
 
     private NextScore(currentScore: number): number {
+        if (currentScore == Scoreboard.advantage)
+            return Scoreboard.win;
+        
         var index = this.scoreSequence.indexOf(currentScore);
 
         if (index < 0)

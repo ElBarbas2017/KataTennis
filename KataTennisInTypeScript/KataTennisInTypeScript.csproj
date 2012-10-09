@@ -31,12 +31,12 @@
     <Content Include="lib\jasmine.js" />
     <Content Include="SpecRunner.html" />
     <TypeScriptCompile Include="spec\PlayerSpec.ts" />
-    <Content Include="spec\MatchSpec.js">
-      <DependentUpon>MatchSpec.ts</DependentUpon>
-    </Content>
-    <Content Include="spec\MatchSpec.ts" />
+    <TypeScriptCompile Include="spec\MatchSpec.ts" />
     <Content Include="spec\PlayerSpec.js">
       <DependentUpon>PlayerSpec.ts</DependentUpon>
+    </Content>
+    <Content Include="spec\MatchSpec.js">
+      <DependentUpon>MatchSpec.ts</DependentUpon>
     </Content>
     <Content Include="spec\samples\PlayerSpec.js" />
     <Content Include="spec\samples\SpecHelper.js" />
@@ -47,20 +47,20 @@
   <ItemGroup>
     <TypeScriptCompile Include="src\Player.ts" />
     <TypeScriptCompile Include="src\Luck.ts" />
+    <TypeScriptCompile Include="src\Match.ts" />
+    <TypeScriptCompile Include="src\Scoreboard.ts" />
+    <Content Include="src\Player.js">
+      <DependentUpon>Player.ts</DependentUpon>
+    </Content>
     <Content Include="src\Luck.js">
       <DependentUpon>Luck.ts</DependentUpon>
     </Content>
     <Content Include="src\Match.js">
       <DependentUpon>Match.ts</DependentUpon>
     </Content>
-    <Content Include="src\Match.ts" />
-    <Content Include="src\Player.js">
-      <DependentUpon>Player.ts</DependentUpon>
-    </Content>
-    <Content Include="src\ScoreBoard.js">
+    <Content Include="src\Scoreboard.ts">
       <DependentUpon>Scoreboard.ts</DependentUpon>
     </Content>
-    <Content Include="src\Scoreboard.ts" />
     <Content Include="web.config" />
     <Content Include="lib\MIT.LICENSE" />
     <None Include="web.Release.config">
@@ -84,7 +84,7 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerPort>11590</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:39319/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
@@ -97,6 +97,6 @@
     </VisualStudio>
   </ProjectExtensions>
   <Target Name="BeforeBuild">
-    <Exec Command="&quot;$(PROGRAMFILES)\Microsoft SDKs\TypeScript\0.8.0.0\tsc&quot; @(TypeScriptCompile ->'&quot;%(fullpath)&quot;', ' ')" />
+    <Exec Command="&quot;$(PROGRAMFILES)\Microsoft SDKs\TypeScript\0.8.0.0\tsc&quot; -sourcemap @(TypeScriptCompile ->'&quot;%(fullpath)&quot;', ' ')" />
   </Target>
 </Project>

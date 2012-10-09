@@ -10,7 +10,7 @@ describe("Match", () => {
     var player2 : Player;
     var scoreBoard : Scoreboard;
     var match: Match;
-
+    
     beforeEach(() => {
         playerOneLuck = new Luck();
         playerTwoLuck = new Luck();
@@ -98,13 +98,18 @@ describe("Match", () => {
         expect(winnerPlayer).toBe(player1);
     });
 
-    xit("should gave a player advantage if both players score is 40", () => {
+    it("should gave a player advantage if both players score is 40", () => {
 
         spyOn(playerOneLuck, "Do").andReturn(10);
         spyOn(playerTwoLuck, "Do").andReturn(15);
 
+        match.scoreboard.player1Score = 40;
+        match.scoreboard.player2Score = 40;
+
         match.PlayRound();
 
+        expect(match.scoreboard.player2Score).toEqual(Scoreboard.advantage);
+        expect(match.scoreboard.player1Score).toEqual(40);
         
     });
 

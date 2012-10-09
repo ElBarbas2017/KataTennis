@@ -8,6 +8,8 @@ var Scoreboard = (function () {
         this.player1Score = 0;
         this.player2Score = 0;
     }
+    Scoreboard.advantage = 41;
+    Scoreboard.win = -1;
     Scoreboard.prototype.Player1Scores = function () {
         this.player1Score = this.NextScore(this.player1Score);
     };
@@ -20,7 +22,11 @@ var Scoreboard = (function () {
             return this.scoreSequence[0];
         } else {
             if((this.scoreSequence.length) == index + 1) {
-                return -1;
+                if(this.player2Score == this.scoreSequence[2] && this.player1Score == this.scoreSequence[2]) {
+                    return Scoreboard.advantage;
+                } else {
+                    return Scoreboard.win;
+                }
             } else {
                 return this.scoreSequence[index + 1];
             }

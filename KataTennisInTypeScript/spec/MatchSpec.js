@@ -69,10 +69,14 @@ describe("Match", function () {
         expect(match.onWin).toHaveBeenCalled();
         expect(winnerPlayer).toBe(player1);
     });
-    xit("should gave a player advantage if both players score is 40", function () {
+    it("should gave a player advantage if both players score is 40", function () {
         spyOn(playerOneLuck, "Do").andReturn(10);
         spyOn(playerTwoLuck, "Do").andReturn(15);
+        match.scoreboard.player1Score = 40;
+        match.scoreboard.player2Score = 40;
         match.PlayRound();
+        expect(match.scoreboard.player2Score).toEqual(Scoreboard.advantage);
+        expect(match.scoreboard.player1Score).toEqual(40);
     });
     function SetupFakeLuckDoCall(luck, maxCalls, resultInRange, resultOutOfRange) {
         var callCount = 0;

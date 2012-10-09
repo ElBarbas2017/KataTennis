@@ -11,10 +11,18 @@ var Scoreboard = (function () {
     Scoreboard.advantage = 41;
     Scoreboard.win = -1;
     Scoreboard.prototype.Player1Scores = function () {
-        this.player1Score = this.NextScore(this.player1Score);
+        if(this.player2Score == Scoreboard.advantage) {
+            this.player2Score = 40;
+        } else {
+            this.player1Score = this.NextScore(this.player1Score);
+        }
     };
     Scoreboard.prototype.Player2Scores = function () {
-        this.player2Score = this.NextScore(this.player2Score);
+        if(this.player1Score == Scoreboard.advantage) {
+            this.player1Score = 40;
+        } else {
+            this.player2Score = this.NextScore(this.player2Score);
+        }
     };
     Scoreboard.prototype.NextScore = function (currentScore) {
         var index = this.scoreSequence.indexOf(currentScore);

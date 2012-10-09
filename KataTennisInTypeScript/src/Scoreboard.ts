@@ -4,16 +4,22 @@
     public static win = -1;
     player1Score: number = 0;
     player2Score: number = 0;
-    
+
     Player1Scores(): void {
-        this.player1Score = this.NextScore(this.player1Score);
+        if (this.player2Score == Scoreboard.advantage)
+            this.player2Score = 40;
+        else
+            this.player1Score = this.NextScore(this.player1Score);
     }
 
     Player2Scores(): void {
-        this.player2Score = this.NextScore(this.player2Score);
+        if (this.player1Score == Scoreboard.advantage)
+            this.player1Score = 40;
+        else
+            this.player2Score = this.NextScore(this.player2Score);
     }
 
-    private NextScore(currentScore: number) : number {
+    private NextScore(currentScore: number): number {
         var index = this.scoreSequence.indexOf(currentScore);
 
         if (index < 0)

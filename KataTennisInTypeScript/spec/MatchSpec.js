@@ -78,6 +78,28 @@ describe("Match", function () {
         expect(match.scoreboard.player2Score).toEqual(Scoreboard.advantage);
         expect(match.scoreboard.player1Score).toEqual(40);
     });
+    it("should lost players advantage if other player scores", function () {
+        spyOn(playerOneLuck, "Do").andReturn(10);
+        spyOn(playerTwoLuck, "Do").andReturn(15);
+        match.scoreboard.player1Score = Scoreboard.advantage;
+        match.scoreboard.player2Score = 40;
+        match.PlayRound();
+        expect(match.scoreboard.player2Score).toEqual(40);
+        expect(match.scoreboard.player1Score).toEqual(40);
+    });
+    it("should give win to the player who scores on advantage", function () {
+        spyOn(playerOneLuck, "Do").andReturn(10);
+        spyOn(playerTwoLuck, "Do").andReturn(5);
+        match.scoreboard.player1Score = Scoreboard.advantage;
+        match.scoreboard.player2Score = 40;
+        var winnerPlayer;
+        spyOn(match, "onWin").andCallFake(function (p) {
+            winnerPlayer = p;
+        });
+        match.PlayRound();
+        expect(match.onWin).toHaveBeenCalled();
+        expect(winnerPlayer).toBe(player1);
+    });
     function SetupFakeLuckDoCall(luck, maxCalls, resultInRange, resultOutOfRange) {
         var callCount = 0;
         spyOn(luck, "Do").andCallFake(function () {

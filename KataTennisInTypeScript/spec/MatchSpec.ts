@@ -4,13 +4,13 @@
 /// <reference path="../src/Luck.ts" />
 
 describe("Match", () => {
-    var playerOneLuck : Luck;
-    var playerTwoLuck : Luck;
-    var player1 : Player;
-    var player2 : Player;
-    var scoreBoard : Scoreboard;
+    var playerOneLuck: Luck;
+    var playerTwoLuck: Luck;
+    var player1: Player;
+    var player2: Player;
+    var scoreBoard: Scoreboard;
     var match: Match;
-    
+
     beforeEach(() => {
         playerOneLuck = new Luck();
         playerTwoLuck = new Luck();
@@ -23,7 +23,7 @@ describe("Match", () => {
 
     it("should need two Players to create a match", () => {
         var player = new Player("null", null);
-        
+
         var twoPlayerMatch = new Match(player, player, scoreBoard);
 
         expect(twoPlayerMatch.player1).toBe(player);
@@ -31,14 +31,14 @@ describe("Match", () => {
     });
 
     it("should need throw if one of two players are null", () => {
-        
+
         var firstParameterIsNull = () => new Match(null, new Player("Player2", null), null);
         var secondParameterIsNull = () => new Match(new Player("Player1", null), null, null);
 
         expect(firstParameterIsNull).toThrow("Player1 Is Required");
         expect(secondParameterIsNull).toThrow("Player2 Is Required");
     });
-    
+
     it("should give 15 poins on First move only to the player with greater luck", () => {
 
         spyOn(playerOneLuck, "Do").andReturn(10);
@@ -74,7 +74,7 @@ describe("Match", () => {
 
         match.PlayRound();
         expect(match.scoreboard.player1Score).toBe(15);
-        
+
         match.PlayRound();
         expect(match.scoreboard.player1Score).toBe(30);
 
@@ -91,7 +91,7 @@ describe("Match", () => {
         spyOn(match, "onWin").andCallFake((p) => { winnerPlayer = p; });
 
         match.scoreboard.player1Score = 40;
-        
+
         match.PlayRound();
 
         expect(match.onWin).toHaveBeenCalled();
@@ -110,7 +110,36 @@ describe("Match", () => {
 
         expect(match.scoreboard.player2Score).toEqual(Scoreboard.advantage);
         expect(match.scoreboard.player1Score).toEqual(40);
-        
+
+    });
+
+    it("should lost players advantage if other player scores", () => {
+        spyOn(playerOneLuck, "Do").andReturn(10);
+        spyOn(playerTwoLuck, "Do").andReturn(15);
+
+        match.scoreboard.player1Score = Scoreboard.advantage;
+        match.scoreboard.player2Score = 40;
+
+        match.PlayRound();
+
+        expect(match.scoreboard.player2Score).toEqual(40);
+        expect(match.scoreboard.player1Score).toEqual(40);
+    });
+
+    it("should give win to the player who scores on advantage", () => {
+        spyOn(playerOneLuck, "Do").andReturn(10);
+        spyOn(playerTwoLuck, "Do").andReturn(5);
+
+        match.scoreboard.player1Score = Scoreboard.advantage;
+        match.scoreboard.player2Score = 40;
+
+        var winnerPlayer: Player;
+        spyOn(match, "onWin").andCallFake((p) => { winnerPlayer = p; });
+
+        match.PlayRound();
+
+        expect(match.onWin).toHaveBeenCalled();
+        expect(winnerPlayer).toBe(player1);
     });
 
     function SetupFakeLuckDoCall(luck: Luck, maxCalls: number, resultInRange: number, resultOutOfRange: number) {
@@ -126,7 +155,7 @@ describe("Match", () => {
         });
     }
 
-    function GetNumberOfCalls(method: any) : number {
+    function GetNumberOfCalls(method: any): number {
         return method.calls.length;
     }
 });

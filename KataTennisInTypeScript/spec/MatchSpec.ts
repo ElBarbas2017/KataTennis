@@ -17,7 +17,7 @@ describe("Match", () => {
 
         player1 = new Player("Player1", playerOneLuck);
         player2 = new Player("Player2", playerTwoLuck);
-        
+
         scoreBoard = new Scoreboard();
         match = new Match(player1, player2, scoreBoard);
     });
@@ -144,6 +144,9 @@ describe("Match", () => {
     });
 
     it("should throw if there is a winner", () => {
+        spyOn(playerOneLuck, "Do").andReturn(10);
+        spyOn(playerTwoLuck, "Do").andReturn(5);
+
         match.scoreboard.player1Score = Scoreboard.advantage;
         match.scoreboard.player2Score = 40;
 
@@ -156,8 +159,8 @@ describe("Match", () => {
         } catch (e) {
             exception = e;
         }
-          
-       expect(exception).toBe("There is already a winner");
+
+        expect(exception).toBe("There is already a winner");
     });
 
     function SetupFakeLuckDoCall(luck: Luck, maxCalls: number, resultInRange: number, resultOutOfRange: number) {

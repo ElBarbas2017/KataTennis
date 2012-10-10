@@ -101,6 +101,8 @@ describe("Match", function () {
         expect(winnerPlayer).toBe(player1);
     });
     it("should throw if there is a winner", function () {
+        spyOn(playerOneLuck, "Do").andReturn(10);
+        spyOn(playerTwoLuck, "Do").andReturn(5);
         match.scoreboard.player1Score = Scoreboard.advantage;
         match.scoreboard.player2Score = 40;
         match.PlayRound();

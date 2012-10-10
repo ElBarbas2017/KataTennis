@@ -32,6 +32,10 @@
     <Content Include="SpecRunner.html" />
     <TypeScriptCompile Include="spec\PlayerSpec.ts" />
     <TypeScriptCompile Include="spec\MatchSpec.ts" />
+    <TypeScriptCompile Include="spec\MatchControllerSpec.ts" />
+    <Content Include="spec\MatchController.js">
+      <DependentUpon>MatchControllerSpec.ts</DependentUpon>
+    </Content>
     <Content Include="spec\PlayerSpec.js">
       <DependentUpon>PlayerSpec.ts</DependentUpon>
     </Content>
@@ -49,6 +53,10 @@
     <TypeScriptCompile Include="src\Luck.ts" />
     <TypeScriptCompile Include="src\Match.ts" />
     <TypeScriptCompile Include="src\Scoreboard.ts" />
+    <TypeScriptCompile Include="src\MatchController.ts" />
+    <Content Include="src\MatchController.js">
+      <DependentUpon>MatchController.ts</DependentUpon>
+    </Content>
     <Content Include="src\Player.js">
       <DependentUpon>Player.ts</DependentUpon>
     </Content>
